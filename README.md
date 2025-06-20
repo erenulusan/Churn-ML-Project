@@ -34,7 +34,3 @@ Bu projede kullanılan temel yaklaşımlar ve teknolojiler şunlardır:
 - **Model Dağıtımı:** FastAPI, Docker
 - **Versiyon Kontrolü:** Git, GitHub
 
-<<<<<<< HEAD
-=======
-
->>>>>>> a9e8ee7603e01257affa7cb0c6f6f249fd7038c6
