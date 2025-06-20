@@ -1,16 +1,32 @@
+from pathlib import Path
 import pandas as pd
 
-def load_telco_data(file_path):
-    try:
-        df = pd.read_csv(file_path)
-        print(f"Veri seti başarıyla yüklendi. Boyut: {df.shape}")
-        return df
-    except FileNotFoundError:
-        print(f"Hata: Belirtilen dosya yolu bulunamadı: {file_path}")
-        return None
-    except Exception as e:
-        print(f"Veri yüklenirken bir hata oluştu: {e}")
-        return None
+#csv dosyasının yolunu ayarlıyorum
+DATA_PATH = (Path(__file__).resolve().parents[2] / "data" / "dataset.csv")
 
-if __name__ == "__main__":
-    pass
+def _read_raw(path: str | Path= DATA_PATH) -> pd.DataFrame:
+    """
+    Csvyi okuyoruz, totalchargesı numeriğe çevirip eksik satırları silip indexi resetliyoruz (2.notebookda yapıldığı gibi)
+    """
+    df=pd.read_csv(path)
+
+    df["TotalCharges"]= pd.to_numeric(df["TotalCharges"], errors="coerce")
+    df= df.dropna().reset_index(drop=True)
+    return df
+
+
+def load_xy(path: str | Path=DATA_PATH, target: str ="Churn",id_col: str= "customerID"):
+    """
+    data framei alır X-y olarak ayırır
+    """
+    df= _read_raw(path)
+    y=df[target]
+    X=df.drop([id_col, target], axis=1)
+    return X,y
+
+
+def load_df(path: str | Path=DATA_PATH) -> pd.DataFrame:
+    """
+    data frame lazım olursa 
+    """
+    return _read_raw(path)
