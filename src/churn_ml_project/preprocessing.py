@@ -46,4 +46,8 @@ def build_pipeline():
             ("num", num_pipe, NUMERICAL_COLS)],
         remainder="passthrough")
     return full_pipeline
-                      
+
+
+def preprocess_features(X: pd.DataFrame) -> pd.DataFrame:
+    pipeline = build_pipeline()
+    return pipeline.fit_transform(X)
